@@ -1,0 +1,111 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-6 col-sm-2">{:__('当前单数')}:</label>
+        <div class="col-xs-6 col-sm-3">
+            <input class="form-control" type="text" value="{$info.deal_count}" readonly>
+        </div>
+
+        <label class="control-label col-xs-6 col-sm-2">{:__('当前余额')}:</label>
+        <div class="col-xs-6 col-sm-3">
+            <input class="form-control" type="text" value="{$info.money}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-6 col-sm-2">{:__('开始序号')}:</label>
+        <div class="col-xs-6 col-sm-3">
+            <input id="c-sort_id" data-rule="required" class="form-control" name="row[sort_id]" type="text" value="">
+        </div>
+<!-- 
+        <label class="control-label col-xs-6 col-sm-2">{:__('连续N单')}:</label>
+        <div class="col-xs-6 col-sm-3">
+            <input id="c-mark_over" class="form-control" name="row[mark_over]" type="number" value="1">
+        </div> -->
+    </div>  
+
+    <div class="form-group">
+        <label class="control-label col-xs-2 col-sm-2"></label> 
+        <label class="control-label col-xs-6 col-sm-4" style="text-align: center;">{:__('选择商品')}</label> 
+        <label class="control-label col-xs-2 col-sm-2" style="text-align: center;">{:__('数量')}</label> 
+        <label class="control-label col-xs-2 col-sm-2" style="text-align: center;">{:__('佣金率(%)')}</label> 
+    </div>
+
+    <div class="form-group"> 
+        <label class="control-label col-xs-2 col-sm-2"></label> 
+        <div class="col-xs-6 col-sm-4">
+            <input class="form-control selectpage" name="row[product_id][]" type="text" placeholder="请输入金额" data-source="data/product/search_products" data-field="title" data-format-item="金额：{price} - 标题：{title}" data-search-field="price">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" name="row[number][]" type="number" value="1">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" step="0.01" name="row[commission_rate][]" type="number" value="3.00">
+        </div>
+    </div>
+    <div class="form-group"> 
+        <label class="control-label col-xs-2 col-sm-2"></label> 
+        <div class="col-xs-6 col-sm-4">
+            <input class="form-control selectpage" name="row[product_id][]" type="text" placeholder="请输入金额" data-source="data/product/search_products" data-field="title" data-format-item="金额：{price} - 标题：{title}" data-primary-key="id" data-search-field="price">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" name="row[number][]" type="number" value="1">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" step="0.01" name="row[commission_rate][]" type="number" value="3.00">
+        </div>
+    </div>
+    <div class="form-group"> 
+        <label class="control-label col-xs-2 col-sm-2"></label> 
+        <div class="col-xs-6 col-sm-4">
+            <input class="form-control selectpage" name="row[product_id][]" type="text" placeholder="请输入金额" data-source="data/product/search_products" data-field="title" data-format-item="金额：{price} - 标题：{title}" data-primary-key="id" data-search-field="price">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" name="row[number][]" type="number" value="1">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" step="0.01" name="row[commission_rate][]" type="number" value="3.00">
+        </div>
+    </div>
+    <div class="form-group"> 
+        <label class="control-label col-xs-2 col-sm-2"></label> 
+        <div class="col-xs-6 col-sm-4">
+            <input class="form-control selectpage" name="row[product_id][]" type="text" placeholder="请输入金额" data-source="data/product/search_products" data-field="title" data-format-item="金额：{price} - 标题：{title}" data-primary-key="id" data-search-field="price">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" name="row[number][]" type="number" value="1">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" step="0.01" name="row[commission_rate][]" type="number" value="3.00">
+        </div>
+    </div>
+    <div class="form-group"> 
+        <label class="control-label col-xs-2 col-sm-2"></label> 
+        <div class="col-xs-6 col-sm-4">
+            <input class="form-control selectpage" name="row[product_id][]" type="text" placeholder="请输入金额" data-source="data/product/search_products" data-field="title" data-format-item="金额：{price} - 标题：{title}" data-primary-key="id" data-search-field="price">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" name="row[number][]" type="number" value="1">
+        </div>
+ 
+        <div class="col-xs-4 col-sm-2">
+            <input class="form-control" step="0.01" name="row[commission_rate][]" type="number" value="3.00">
+        </div>
+    </div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>
