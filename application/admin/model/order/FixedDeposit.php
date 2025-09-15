@@ -34,7 +34,7 @@ class FixedDeposit extends Model
     
     public function getStatusList()
     {
-        return ['1' => __('Status 1')];
+        return ['0' => __('等待中'),'1' => __('完成')];
     }
 
 
