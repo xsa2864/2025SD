@@ -19,7 +19,7 @@ class FixedDeposit extends Validate
     /**
      * 验证场景
      */
-    protected $scene = [
+    protected $scene = [ 
         'add'  => [],
         'edit' => [],
     ];

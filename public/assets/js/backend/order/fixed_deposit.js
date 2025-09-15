@@ -30,7 +30,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'id', title: __('Id'), operate:false},
                         {field: 'user_id', title: __('User_id')},
                         {field: 'order_sn', title: __('Order_sn'), operate: 'LIKE'},
-                        {field: 'name', title: __('Name'), operate: 'LIKE'},
+                        {field: 'name', title: __('Name'),  operate:false},
                         {field: 'type', title: __('Type')},
                         {field: 'day', title: __('Day'), operate:false},
                         {field: 'amount', title: __('Amount'), operate:false},

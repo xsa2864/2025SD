@@ -18,7 +18,7 @@ class FixedDeposit extends Backend
      */
     protected $model = null;
 
-    public function _initialize()
+    public function _initialize() 
     {
         parent::_initialize();
         $this->model = new \app\admin\model\order\FixedDeposit;

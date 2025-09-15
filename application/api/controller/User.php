@@ -206,7 +206,7 @@ class User extends Api
     }
 
     /**
-     * 获取密码加密后的字符串
+     * 获取密码加密后的字符串 
      * @param string $password 密码
      * @param string $salt     密码盐
      * @return string

@@ -13,7 +13,7 @@ class FixedDeposit extends Model
     
 
     // 表名
-    protected $name = 'm_fixed_deposit';
+    protected $name = 'm_fixed_deposit'; 
     
     // 自动写入时间戳字段
     protected $autoWriteTimestamp = false;

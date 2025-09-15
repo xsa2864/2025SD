@@ -34,7 +34,7 @@ class OrderWithdraw extends Api
         }
         $py = new \app\api\controller\User;
         if ($this->auth->pay_password != $py->getEncryptPassword($pay_password, $this->auth->pay_salt)) {
-            $this->error(__('The password is incorrect'));
+            $this->error(__('The password is incorrect')); 
         }  
         $mc = new \app\common\model\MembershipChain(); 
         $withdraw_time = $mc->isWithinTimeRange("withdraw_time");

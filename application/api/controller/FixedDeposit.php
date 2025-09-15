@@ -26,7 +26,7 @@ class FixedDeposit extends Api
      * @ApiMethod (GET) 
      *   
      */
-    public function getList()
+    public function getList() 
     {
         $catalog['rate'] = $this->rate; 
         $catalog['amount'] = $this->amount;
