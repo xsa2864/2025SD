@@ -35,7 +35,7 @@ class Bankinfo extends Api
         $trc20 = $this->request->post('trc20', ""); 
         $address = $this->request->post('address', ""); 
         if(empty($name)||empty($bank_name)){
-            $this->error("请输入参数");
+            $this->error(__("Please enter the parameters"));
         }
         $info=Db::name("m_bankinfo")->where("user_id",$this->auth->id)->find();
         if(empty($info)){

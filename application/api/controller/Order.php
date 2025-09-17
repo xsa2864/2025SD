@@ -23,12 +23,12 @@ class Order extends Api
     {
         $order_sn = Db::name("m_order")->where("user_id",$this->auth->id)->where("status",0)->value("order_sn");
         if($order_sn){
-            $this->error("订单还未完成",['order_sn'=>$order_sn]);
+            $this->error(__("The order has not been completed."),['order_sn'=>$order_sn]);
         }
         $mc = new MembershipChain(); 
         $result = $mc->isWithinTimeRange();
         if(!$result){
-            $this->error("时间还未到");
+            $this->error(__("The time has not come yet."));
         } 
         $new_sort_id = $this->auth->deal_count + 1; 
         $mark_no = 0;
@@ -64,16 +64,16 @@ class Order extends Api
 
             $lv = Db::name("m_level")->where('level', $this->auth->level)->find();    
             if(empty($lv)){
-                $this->error("还未设置等级");
+                $this->error(__("Level not set yet"));
             } 
             $commission_rate=$lv['commission_rate'];
         }
         if(empty($product)){
-            $this->error("没有产品数据");
+            $this->error(__("No product data"));
         }
         $amount=abs($product['price']);
         if($amount>$this->auth->money){
-            $this->error("余额不足");
+            $this->error(__("Insufficient balance"));
         }
 
         $commission=round($amount * $number * $commission_rate /100,2);
@@ -94,9 +94,9 @@ class Order extends Api
         if($result){  
             \app\common\model\User::money(- $amount, $this->auth->id, $order_sn);   
             Db::name("user")->where("id",$this->auth->id)->update(['deal_count'=>$new_sort_id]); 
-            $this->success("下单成功",$data);
+            $this->success(__("Order successful"),$data);
         }else{
-            $this->error("下单失败");
+            $this->error(__("Order failed"));
         }
     } 
  
@@ -118,7 +118,7 @@ class Order extends Api
         if($result)
         {
             if($this->auth->money<0){
-                $this->error("支付金额不够");
+                $this->error(__("Payment amount insufficient"));
             }
             $amount=$result['amount'];
             $commission=$result['commission'];
@@ -152,9 +152,9 @@ class Order extends Api
                 $mc->payCommission($this->auth->id,$commission,"佣金");
                 \app\common\model\User::autolevel($this->auth->id);
             }
-            $this->success("支付成功");
+            $this->success(__("Payment successful"));
         }else{
-            $this->error("无效订单");
+            $this->error(__("Invalid order"));
         }
     } 
 

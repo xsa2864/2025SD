@@ -30,5 +30,6 @@ return [
     'Token'          => 'Token',
     'Status'         => '状态',
     'Deal_count'         => '交易单量',
+    'Invite_code'         => '邀请码',
     'Leave password blank if dont want to change' => '不修改密码请留空',
 ];

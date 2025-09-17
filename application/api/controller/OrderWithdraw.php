@@ -27,10 +27,10 @@ class OrderWithdraw extends Api
         $bank_id = $this->request->post('bank_id', 0); 
         $pay_password = $this->request->post('pay_password', ""); 
         if($price<=0){
-            $this->error("请输入有效金额");
+            $this->error(__("Please enter a valid amount"));
         }
         if($price>$this->auth->money){
-            $this->error("余额不足");
+            $this->error(__("Insufficient balance"));
         }
         $py = new \app\api\controller\User;
         if ($this->auth->pay_password != $py->getEncryptPassword($pay_password, $this->auth->pay_salt)) {
@@ -39,7 +39,7 @@ class OrderWithdraw extends Api
         $mc = new \app\common\model\MembershipChain(); 
         $withdraw_time = $mc->isWithinTimeRange("withdraw_time");
         if(!$withdraw_time){
-            $this->error("时间还未到");
+            $this->error(__("Time has not yet expired"));
         } 
         $data=[];
         $data['order_sn']=\app\common\model\Order::getOrderSn("W");
@@ -50,9 +50,9 @@ class OrderWithdraw extends Api
         $result=Db::name("m_order_withdraw")->insertGetId($data);
         if($result){
             \app\common\model\User::money(- $price, $this->auth->id, "提现");
-            $this->success("提现成功",$data);
+            $this->success(__("Withdrawal successful"),$data);
         }else{
-            $this->error("提现失败，请重试");
+            $this->error(__("Withdrawal failed, please try again"));
         } 
     } 
  
