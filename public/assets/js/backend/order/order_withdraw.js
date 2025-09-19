@@ -37,7 +37,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'note', title: __('Note'), operate: false},
                         {field: 'over_time', title: __('Over_time'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         {field: 'create_time', title: __('Create_time'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {field: 'operate', title: __('Operate'), table: table, buttons: [ 
+                            {name: 'edit', text: '修改', title: '修改', icon: 'fa fa-list', classname: 'btn btn-xs btn-warning btn-editone btn-dialog' ,url:$.fn.bootstrapTable.defaults.extend.edit_url},
+                            {name: 'assets', text: '收款信息', title: '收款列表', icon: 'fa fa-list', classname: 'btn btn-xs btn-info btn-dialog btn-editones' ,url:function(row){
+                                return 'user/bankinfo/index?id='+row.bank_id
+                            }}
+                        ], events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]
             });
