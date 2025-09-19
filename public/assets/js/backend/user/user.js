@@ -47,7 +47,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'joinip', title: __('Joinip'), formatter: Table.api.formatter.search},
                         {field: 'status', title: __('Status'), formatter: Table.api.formatter.status, searchList: {normal: __('Normal'), hidden: __('Hidden')}},
                         {field: 'operate', title: __('Operate'), table: table,buttons: [ 
-                            {name: 'edit', text: '修改', title: '修改', icon: 'fa fa-list', classname: 'btn btn-xs btn-warning btn-editone btn-dialog' ,url:$.fn.bootstrapTable.defaults.extend.edit_url},
+                            {name: 'money', text: '加扣款', title: '加扣款', icon: '', classname: 'btn btn-xs btn-info btn-dialog' ,url:function(row){
+                                return 'user/user/money?ids='+row.id
+                            },extend: 'data-area=\'["450px", "350px"]\''},
+                            {name: 'edit', text: '修改', title: '修改', icon: '', classname: 'btn btn-xs btn-warning btn-editone btn-dialog' ,url:$.fn.bootstrapTable.defaults.extend.edit_url},
                             {name: 'assets', text: '派单', title: '派单列表', icon: 'fa fa-list', classname: 'btn btn-xs btn-primary btn-dialog btn-editones' ,url:function(row){
                                 return 'order/order_mark/index?user_id='+row.id
                             }},
@@ -88,6 +91,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Controller.api.bindevent();
         },
         edit: function () {
+            Controller.api.bindevent();
+        },
+        money: function () {
             Controller.api.bindevent();
         },
         api: {

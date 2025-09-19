@@ -18,6 +18,7 @@ class Order extends Backend
      * @var \app\admin\model\order\Order
      */
     protected $model = null;
+    protected $noNeedRight = ['refresh'];
 
     public function _initialize()
     {

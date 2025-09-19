@@ -18,6 +18,7 @@ class Product extends Backend
      * @var \app\admin\model\data\Product
      */
     protected $model = null;
+    protected $noNeedRight = ['search_products'];
 
     public function _initialize()
     {
