@@ -48,13 +48,13 @@ class FixedDeposit extends Api
         $money = $this->request->post('money', 0); 
         $pay_password = $this->request->post('pay_password', ""); 
         if(!in_array($money, $this->amount)){
-            $this->error(__("请输入有效金额"));
+            $this->error(__("Please enter a valid amount"));
         }
         if(!isset($this->rate[$type])){
-            $this->error(__("请选择收益类型"));
+            $this->error(__("Please select the income type"));
         }
         if($money>$this->auth->money){
-            $this->error(__("余额不足"));
+            $this->error(__("Insufficient balance"));
         }
 
         $amount = Db::name("m_fixed_deposit")->where("user_id",$this->auth->id)->value("max(amount)");
@@ -83,9 +83,9 @@ class FixedDeposit extends Api
 
         if($result){
             \app\common\model\User::money(- $money, $this->auth->id, "定存");
-            $this->success(__("Purchase successful!"),$data);
+            $this->success(__("Purchase successful"),$data);
         }else{
-            $this->error(__("Purchase failed, try again."));
+            $this->error(__("Purchase failed, try again"));
         } 
     } 
  

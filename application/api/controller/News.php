@@ -39,7 +39,6 @@ class News extends Api
         $title = $this->request->get('title',""); 
         $page = $this->request->get("page",1);        
         $per_page = $this->request->get("per_page",15);
-        $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE']??'en-us'; 
 
         $is_order = "weigh desc,create_time desc";
         $wh = [];

@@ -22,7 +22,7 @@ class OrderCharge extends Api
     {
         $price = $this->request->post('price', 0); 
         if($price<=0){
-            $this->error(__("请输入有效金额"));
+            $this->error(__("Please enter a valid amount"));
         }
         $data=[];
         $data['order_sn']=\app\common\model\Order::getOrderSn("C");
