@@ -21,7 +21,7 @@ return [
     'Level not set yet'                         => '尚未設定級別',
     'No product data'                           => '暫無產品數據',
     'Insufficient balance'                      => '餘額不足',
-    'The order has not been completed.'         => '訂單尚未完成。',
+    'The order has not been completed'          => '訂單尚未完成',
     'Keep login'                                     => '保持会话',
     'Username'                                       => '用户名',
     'User id'                                        => '会员ID',

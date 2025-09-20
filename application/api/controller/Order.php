@@ -23,12 +23,12 @@ class Order extends Api
     {
         $order_sn = Db::name("m_order")->where("user_id",$this->auth->id)->where("status",0)->value("order_sn");
         if($order_sn){
-            $this->error(__("The order has not been completed."),['order_sn'=>$order_sn]);
+            $this->error(__("The order has not been completed"),['order_sn'=>$order_sn]);
         }
         $mc = new MembershipChain(); 
         $result = $mc->isWithinTimeRange();
         if(!$result){
-            $this->error(__("The time has not come yet."));
+            $this->error(__("The time has not come yet"));
         } 
         $new_sort_id = $this->auth->deal_count + 1; 
         $mark_no = 0;
