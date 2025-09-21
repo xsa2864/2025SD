@@ -25,6 +25,11 @@ class Order extends Api
         if($order_sn){
             $this->error(__("The order has not been completed"),['order_sn'=>$order_sn]);
         }
+        $purchase_amount=config("site.purchase_amount")??0;
+        if($purchase_amount>0 && $this->auth->money<$purchase_amount){
+            $this->error(__("Amount less than %s",[$purchase_amount]));
+        }
+        
         $mc = new MembershipChain(); 
         $result = $mc->isWithinTimeRange();
         if(!$result){
@@ -57,7 +62,7 @@ class Order extends Api
             $minPrice = Db::name("m_product")->min("price"); 
 
             $product = Db::name("m_product")
-                            ->where('price', '>=', $minPrice)
+                            ->where('price', '>', $minPrice)
                             ->where('price', '<=', $maxPrice)
                             ->orderRaw('RAND()')
                             ->find();

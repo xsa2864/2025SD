@@ -2,6 +2,7 @@
 
 return [
     'Guest'                                          => '游客',
+    "Amount less than %s"                                          => "金额不足%s",
     'The password is incorrect'                                          => '密碼錯誤',
     'Time has not yet expired'                                          => '時間尚未到期',
     'Withdrawal successful'                                          => '提現成功',

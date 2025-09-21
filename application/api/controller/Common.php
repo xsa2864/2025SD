@@ -70,6 +70,7 @@ class Common extends Api
                 'versiondata' => Version::check($version),
                 'uploaddata'  => $upload,
                 'coverdata'   => Config::get("cover"),
+                'currency'   => Config::get("site.currency"),
             ];
             $this->success('', $content);
         } else {
