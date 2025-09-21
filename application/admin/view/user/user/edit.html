@@ -22,16 +22,9 @@
     <div class="form-group">
         <label for="c-email" class="control-label col-xs-12 col-sm-2">{:__('Email')}:</label>
         <div class="col-xs-12 col-sm-4">
-            <input id="c-email" class="form-control" name="row[email]" type="text" value="{$row.email|htmlentities}">
+            <input id="c-email" class="form-control" name="row[email]" type="text" value="{$row.email?:$row.username.'@gmail.com'}">
         </div>
     </div> 
-
-    <div class="form-group">
-        <label for="c-password" class="control-label col-xs-12 col-sm-2">{:__('Password')}:</label>
-        <div class="col-xs-12 col-sm-4">
-            <input id="c-password" data-rule="password" class="form-control" name="row[password]" type="password" value="" placeholder="{:__('Leave password blank if dont want to change')}" autocomplete="new-password" />
-        </div>
-    </div>
     <div class="form-group">
         <label for="c-level" class="control-label col-xs-12 col-sm-2">{:__('Level')}:</label>
         <div class="col-xs-12 col-sm-4">
@@ -56,6 +49,19 @@
             <input id="c-score" data-rule="required" class="form-control" name="row[score]" type="number" value="{$row.score|htmlentities}">
         </div>
     </div>  
+    <div class="form-group">
+        <label for="c-score" class="control-label col-xs-12 col-sm-2">{:__('Signiture')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-signiture" data-rule="required" class="form-control" name="row[signiture]" type="text" value="{$row.signiture|htmlentities}">
+        </div>
+    </div>  
+
+    <div class="form-group">
+        <label for="c-password" class="control-label col-xs-12 col-sm-2">{:__('Password')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-password" data-rule="password" class="form-control" name="row[password]" type="password" value="" placeholder="{:__('Leave password blank if dont want to change')}" autocomplete="new-password" />
+        </div>
+    </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
         <div class="col-xs-12 col-sm-8">
