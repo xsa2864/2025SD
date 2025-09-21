@@ -46,8 +46,8 @@ return array (
   'level2_rate' => '3',
   'level3_rate' => '1',
   'auto_upgrade' => '1',
-  'order_time' => '14:00|23:00',
-  'withdraw_time' => '02:00|20:00',
+  'order_time' => '14:00-20:00',
+  'withdraw_time' => '02:00-20:00',
   'currency' => '$',
-  'purchase_amount' => '1000000',
+  'purchase_amount' => '1000',
 );

@@ -206,7 +206,7 @@ class MembershipChain extends Model
 
     public function isWithinTimeRange($type="order_time") 
     {
-        $times = explode('|', config("site.".$type)); 
+        $times = explode('-', config("site.".$type)); 
         if (count($times) !== 2) {
             return false; 
         }

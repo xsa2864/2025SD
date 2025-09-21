@@ -2,6 +2,8 @@
 
 return [
     'Guest'                                          => '游客',
+    'The old password is incorrect'                                          => '舊密碼不正確',
+    "Please operate within %s"                                          => "請在%s內操作",
     "Amount less than %s"                                          => "金额不足%s",
     'The password is incorrect'                                          => '密碼錯誤',
     'Time has not yet expired'                                          => '時間尚未到期',

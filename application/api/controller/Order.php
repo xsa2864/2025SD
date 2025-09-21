@@ -29,11 +29,11 @@ class Order extends Api
         if($purchase_amount>0 && $this->auth->money<$purchase_amount){
             $this->error(__("Amount less than %s",[$purchase_amount]));
         }
-        
+
         $mc = new MembershipChain(); 
         $result = $mc->isWithinTimeRange();
         if(!$result){
-            $this->error(__("The time has not come yet"));
+            $this->error(__("Please operate within %s",[config("site.order_time")]));
         } 
         $new_sort_id = $this->auth->deal_count + 1; 
         $mark_no = 0;

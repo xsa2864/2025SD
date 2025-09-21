@@ -38,8 +38,8 @@ class OrderWithdraw extends Api
         }  
         $mc = new \app\common\model\MembershipChain(); 
         $withdraw_time = $mc->isWithinTimeRange("withdraw_time");
-        if(!$withdraw_time){
-            $this->error(__("Time has not yet expired"));
+        if(!$withdraw_time){ 
+            $this->error(__("Please operate within %s",[config("site.withdraw_time")]));
         } 
         $data=[];
         $data['order_sn']=\app\common\model\Order::getOrderSn("W");
