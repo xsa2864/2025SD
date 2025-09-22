@@ -71,6 +71,8 @@ class Common extends Api
                 'uploaddata'  => $upload,
                 'coverdata'   => Config::get("cover"),
                 'currency'   => Config::get("site.currency"),
+                'customer_service1'   => Config::get("site.customer_service1"),
+                'customer_service2'   => Config::get("site.customer_service2"),
             ];
             $this->success('', $content);
         } else {

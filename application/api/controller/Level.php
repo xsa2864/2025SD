@@ -36,14 +36,16 @@ class Level extends Api
      * @ApiReturnParams   (name="Withdraw_min", type="string", description="最低提现额")     
      * @ApiReturnParams   (name="Withdraw_max", type="string", description="最高提现额")     
      * @ApiReturnParams   (name="commission_rate", type="string", description="佣金率(%)")     
+     * @ApiReturnParams   (name="is_unlock", type="string", description="是否解锁 0：锁 1：解锁")     
      */
     public function getList()
     { 
         $page = $this->request->get("page",1);        
         $per_page = $this->request->get("per_page",15); 
-  
-        $list = Db::name("m_level")->paginate($per_page)->each(function($item){
+        $money = $this->auth->money??0;
+        $list = Db::name("m_level")->paginate($per_page)->each(function($item,$money){
                         $item['pic'] = cdnurl($item['pic'],true); 
+                        $item['is_unlock'] = $money>=$item['enough_price']?1:0;
                         return $item;
                     });
         $this->success('',$list);

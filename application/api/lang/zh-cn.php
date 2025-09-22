@@ -2,6 +2,8 @@
 
 return [
     'Guest'                                          => '游客',
+    'Payment password saved successfully'                                          => '支付密碼保存成功',
+    'Invalid invitation code, please check'                                          => '邀請碼無效，請檢查',
     'The old password is incorrect'                                          => '舊密碼不正確',
     "Please operate within %s"                                          => "請在%s內操作",
     "Amount less than %s"                                          => "金额不足%s",
