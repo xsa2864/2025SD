@@ -5,6 +5,7 @@ return [
     'Payment password saved successfully'                                          => '支付密碼保存成功',
     'Invalid invitation code, please check'                                          => '邀請碼無效，請檢查',
     'The old password is incorrect'                                          => '舊密碼不正確',
+    "The operation is currently unavailable. Please proceed during working hours %s"                                          => "當前無法進行操作，請在工作时間%s内进行",
     "Please operate within %s"                                          => "請在%s內操作",
     "Amount less than %s"                                          => "金额不足%s",
     'The password is incorrect'                                          => '密碼錯誤',

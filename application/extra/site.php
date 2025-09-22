@@ -41,7 +41,7 @@ return array (
     'category2' => 'Category2',
     'custom' => 'Custom',
   ),
-  'register_amount' => '10',
+  'register_amount' => '8',
   'level1_rate' => '5',
   'level2_rate' => '3',
   'level3_rate' => '1',
@@ -50,4 +50,6 @@ return array (
   'withdraw_time' => '02:00-20:00',
   'currency' => '$',
   'purchase_amount' => '1000',
+  'customer_service1' => '',
+  'customer_service2' => '',
 );

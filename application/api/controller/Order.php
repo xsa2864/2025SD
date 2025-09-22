@@ -33,7 +33,7 @@ class Order extends Api
         $mc = new MembershipChain(); 
         $result = $mc->isWithinTimeRange();
         if(!$result){
-            $this->error(__("Please operate within %s",[config("site.order_time")]));
+            $this->error(__("The operation is currently unavailable. Please proceed during working hours %s",[config("site.order_time")]));
         } 
         $new_sort_id = $this->auth->deal_count + 1; 
         $mark_no = 0;
