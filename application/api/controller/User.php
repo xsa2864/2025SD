@@ -426,7 +426,7 @@ class User extends Api
         $this->auth->direct($user->id);
         $ret = $this->auth->changepwd($newpassword, '', true);
         if ($ret) {
-            $this->success(__('Reset password successful'));
+            $this->success(__('Login password saved successfully'));
         } else {
             $this->error($this->auth->getError());
         }
