@@ -4,6 +4,7 @@ return [
     'Guest'                                          => '游客',
     'The order limit has been reached'                                          => '訂單已經到達上限',
     'Payment password saved successfully'                                          => '支付密碼保存成功',
+    'Secondary password saved successfully'                                          => '二级密码保存成功',
     'Invalid invitation code, please check'                                          => '邀請碼無效，請檢查',
     'The old password is incorrect'                                          => '舊密碼不正確',
     "The operation is currently unavailable. Please proceed during working hours %s"                                          => "當前無法進行操作，請在工作时間%s内进行",

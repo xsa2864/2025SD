@@ -43,7 +43,7 @@ class Level extends Api
         $page = $this->request->get("page",1);        
         $per_page = $this->request->get("per_page",15); 
         $money = $this->auth->money??0;
-        $list = Db::name("m_level")->paginate($per_page)->each(function($item,$money){
+        $list = Db::name("m_level")->paginate($per_page)->each(function($item)use($money) { 
                         $item['pic'] = cdnurl($item['pic'],true); 
                         $item['is_unlock'] = $money>=$item['enough_price']?1:0;
                         return $item;

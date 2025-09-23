@@ -459,7 +459,7 @@ class User extends Api
         $result = Db::name("user")->where("id",$this->auth->id)->update($extend);
         
         if ($result) {
-            $this->success(__('Payment password saved successfully'));
+            $this->success(__('Secondary password saved successfully'));
         } else {
             $this->error($this->auth->getError());
         }
@@ -502,7 +502,7 @@ class User extends Api
         }
  
         if ($result) {
-            $this->success(__('Payment password saved successfully'));
+            $this->success(__('Secondary password saved successfully'));
         } else {
             $this->error($this->auth->getError());
         }

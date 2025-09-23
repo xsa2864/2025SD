@@ -37,11 +37,11 @@ class Order extends Api
         } 
         $new_sort_id = $this->auth->deal_count + 1; 
 
-        $lv = Db::name("m_level")->where('level', $this->auth->level)->find();    
+        $lv = Db::name("m_level")->where('level', $this->auth->level??1)->find();    
         if(empty($lv)){
             $this->error(__("Level not set yet"));
         } 
-        if($lv['max_order']>$new_sort_id){
+        if($lv['max_order']<$new_sort_id){
             $this->error(__("The order limit has been reached"));
         } 
         $mark_no = 0;
