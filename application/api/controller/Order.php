@@ -36,6 +36,14 @@ class Order extends Api
             $this->error(__("The operation is currently unavailable. Please proceed during working hours %s",[config("site.order_time")]));
         } 
         $new_sort_id = $this->auth->deal_count + 1; 
+
+        $lv = Db::name("m_level")->where('level', $this->auth->level)->find();    
+        if(empty($lv)){
+            $this->error(__("Level not set yet"));
+        } 
+        if($lv['max_order']>$new_sort_id){
+            $this->error(__("The order limit has been reached"));
+        } 
         $mark_no = 0;
         $number = 1;
 
@@ -70,15 +78,11 @@ class Order extends Api
                             ->orderRaw('RAND()')
                             ->find();
 
-            $lv = Db::name("m_level")->where('level', $this->auth->level)->find();    
-            if(empty($lv)){
-                $this->error(__("Level not set yet"));
-            } 
             $commission_rate=$lv['commission_rate'];
         }
         if(empty($product)){
             $this->error(__("No product data"));
-        }
+        }        
         $amount=abs($product['price']);
         if($amount>$this->auth->money){
             $this->error(__("Insufficient balance"));

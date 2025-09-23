@@ -83,7 +83,8 @@ class Product extends Backend
         $price = $this->request->post('price',0);  
         $list = Db::name("m_product") 
                     ->field("*") 
-                    ->where("price",">=",$price) 
+                    ->where("price",">=",$price)
+                    ->order("price asc")
                     ->select(); 
         $responseData = [
             'list' => $list,
