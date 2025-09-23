@@ -57,9 +57,12 @@ class Order extends Api
         }else{            
             $maxPrice = Db::name("m_product")->max("price");
             if($maxPrice > $this->auth->money){
-                $maxPrice = $this->auth->money * 0.9;
+                $maxPrice = $this->auth->money * 0.96;
             }
             $minPrice = Db::name("m_product")->min("price"); 
+            if($minPrice > $this->auth->money){
+                $minPrice = $this->auth->money;
+            }
 
             $product = Db::name("m_product")
                             ->where('price', '>', $minPrice)

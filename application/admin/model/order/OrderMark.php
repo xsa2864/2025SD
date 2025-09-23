@@ -44,5 +44,9 @@ class OrderMark extends Model
         return $value === '' ? null : ($value && !is_numeric($value) ? strtotime($value) : $value);
     }
 
+    public function product()
+    {
+        return $this->belongsTo('app\admin\model\data\Product', 'product_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
 
 }

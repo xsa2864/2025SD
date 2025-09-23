@@ -58,8 +58,8 @@ class User extends Api
             'deal_count' => $this->auth->deal_count,
             'signiture' => $this->auth->signiture,
             'max_order' => Db::name("m_level")->where("level",$this->auth->level)->value("max_order")??0,
-            'day_commission' => Db::name("m_order")->where("user_id",$this->auth->id)->where("status",1)->whereTime('create_time', 'today')->count("commission"),
-            'frozen_amount' => Db::name("m_order")->where("user_id",$this->auth->id)->where("status",2)->count("commission"),
+            'day_commission' => Db::name("m_order")->where("user_id",$this->auth->id)->where("status",1)->whereTime('create_time', 'today')->sum("commission"),
+            'frozen_amount' => Db::name("m_order")->where("user_id",$this->auth->id)->where("status",2)->sum("commission"),
         ]);
     }
 
