@@ -111,6 +111,12 @@ class User extends Backend
     {
         if ($this->request->isPost()) {
             $this->token();
+            $params = $this->request->post('row/a');  
+            if(!empty($params['pay_password'])){
+                $params['pay_salt'] = Random::alnum(); 
+                $params['pay_password'] = $this->getEncryptPassword($params['pay_password'], $params['pay_salt']);
+                $this->request->post(['row' => $params]);
+            } 
         }
         $row = $this->model->get($ids);
         $this->modelValidate = true;
@@ -119,6 +125,11 @@ class User extends Backend
         }
         $this->view->assign('groupList', build_select('row[group_id]', \app\admin\model\UserGroup::column('id,name'), $row['group_id'], ['class' => 'form-control selectpicker']));
         return parent::edit($ids);
+    }
+
+    public function getEncryptPassword($password, $salt = '')
+    {
+        return md5(md5($password) . $salt);
     }
 
     /**

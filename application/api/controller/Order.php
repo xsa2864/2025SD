@@ -164,7 +164,7 @@ class Order extends Api
                 $mc->payCommission($this->auth->id,$commission,"佣金");
                 \app\common\model\User::autolevel($this->auth->id);
             }
-            $this->success(__("Payment successful"));
+            $this->success(__("Finish"));
         }else{
             $this->error(__("Invalid order"));
         }
