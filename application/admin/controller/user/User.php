@@ -4,6 +4,7 @@ namespace app\admin\controller\user;
 
 use app\common\controller\Backend;
 use app\common\library\Auth;
+use fast\Random;
 use think\Db;
 
 /**
@@ -66,8 +67,41 @@ class User extends Backend
     {
         if ($this->request->isPost()) {
             $this->token();
+            $params = $this->request->post('row/a');  
+            $exists = $this->model->where('username',"=", $params['username'])->find(); 
+            if ($exists) {
+                $this->error('用户名已存在，请更换'); 
+            }
+            $exists = $this->model->where('mobile',"=", $params['mobile'])->find(); 
+            if ($exists) {
+                $this->error('手机号已存在，请更换'); 
+            }
+            $params['nickname'] = $params['username'];
+            $params['email'] = $params['username']."@gamil.com";
+            $params['invite_code'] = $this->getInviteCode(1);
         }
+
         return parent::add();
+    }
+
+    /**
+     * 获取邀请码
+     * @param int $type 类型 1=邀请码 2=会员编号
+     * @return string
+     */
+    public function getInviteCode($type=1)
+    {
+        if($type==1){
+            $code = Random::alnum(6);
+            $result = Db::name("user")->where("invite_code",$code)->find();
+        }else{
+            $code = Random::alnum(8);
+            $result = Db::name("user")->where("invite_code",$code)->find();
+        }
+        if($result){
+            return $this->getInviteCode($type);
+        }
+        return $code;
     }
 
     /**

@@ -426,7 +426,7 @@ class User extends Api
         $this->auth->direct($user->id);
         $ret = $this->auth->changepwd($newpassword, '', true);
         if ($ret) {
-            $this->success(__('Login password saved successfully'));
+            $this->success(__('Reset password successful'));
         } else {
             $this->error($this->auth->getError());
         }
@@ -459,7 +459,7 @@ class User extends Api
         $result = Db::name("user")->where("id",$this->auth->id)->update($extend);
         
         if ($result) {
-            $this->success(__('Secondary password saved successfully'));
+            $this->success(__('Login password saved successfully'));
         } else {
             $this->error($this->auth->getError());
         }
