@@ -130,6 +130,7 @@ class User extends Api
      * 注册会员
      *
      * @ApiMethod (POST) 
+     * @ApiParams (name="username", type="string", required=true, description="用户名")
      * @ApiParams (name="mobile", type="string", required=true, description="手机号")
      * @ApiParams (name="password", type="string", required=true, description="密码") 
      * @ApiParams (name="pay_password", type="string", description="支付密码") 
@@ -137,15 +138,14 @@ class User extends Api
      */
     public function register()
     {
-        // $username = $this->request->post('username');
+        $username = $this->request->post('username',"");
         $mobile = $this->request->post('mobile',"");
         $password = $this->request->post('password');
         $pay_password = $this->request->post('pay_password',"");
         $email = $this->request->post('email',"");
         // $code = $this->request->post('code');
-        $invite_code = $this->request->post('invite_code',"");
-        $username = $mobile;
-        if (!$username || !$password) {
+        $invite_code = $this->request->post('invite_code',""); 
+        if (!$username || !$mobile || !$password) {
             $this->error(__('Invalid parameters'));
         }
         if(empty($invite_code)){
@@ -153,7 +153,7 @@ class User extends Api
         }
         $wh = [];
         $wh['status']       = 'normal';
-        $wh['invite_code']  = $invite_code;
+        $wh['username|invite_code']  = $invite_code;
         $result = Db::name("user")->field("id")->where($wh)->find();
         if(empty($result)){
             $this->error(__('Invalid supervisor username'));
