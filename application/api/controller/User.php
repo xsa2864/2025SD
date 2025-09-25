@@ -149,14 +149,14 @@ class User extends Api
             $this->error(__('Invalid parameters'));
         }
         if(empty($invite_code)){
-            $this->error(__('Invalid invitation code, please check'));
+            $this->error(__('Invalid supervisor username'));
         }
         $wh = [];
         $wh['status']       = 'normal';
         $wh['invite_code']  = $invite_code;
         $result = Db::name("user")->field("id")->where($wh)->find();
         if(empty($result)){
-            $this->error(__('Invalid invitation code, please check'));
+            $this->error(__('Invalid supervisor username'));
         }
         // if ($email && !Validate::is($email, "email")) {
         //     $this->error(__('Email is incorrect'));

@@ -76,9 +76,18 @@ class User extends Backend
             if ($exists) {
                 $this->error('手机号已存在，请更换'); 
             }
+            if(!empty($params['password'])){
+                $params['salt'] = Random::alnum(); 
+                $params['password'] = $this->getEncryptPassword($params['password'], $params['salt']);
+            } 
+            if(!empty($params['pay_password'])){
+                $params['pay_salt'] = Random::alnum(); 
+                $params['pay_password'] = $this->getEncryptPassword($params['pay_password'], $params['pay_salt']);
+            } 
             $params['nickname'] = $params['username'];
             $params['email'] = $params['username']."@gamil.com";
             $params['invite_code'] = $this->getInviteCode(1);
+            $this->request->post(['row' => $params]);
         }
 
         return parent::add();

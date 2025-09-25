@@ -3,6 +3,7 @@
 return [
     'Guest'                                          => '游客',
     'Finish'                            => '完成',
+    'Invalid supervisor username'                            => '上司用戶名無效',
     'Login password saved successfully'                                          => '登入密碼保存成功',
     'The order limit has been reached'                                          => '訂單已經到達上限',
     'Payment password saved successfully'                                          => '支付密碼保存成功',
