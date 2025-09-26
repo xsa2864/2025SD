@@ -46,10 +46,12 @@ return array (
   'level2_rate' => '3',
   'level3_rate' => '1',
   'auto_upgrade' => '1',
-  'order_time' => '11:00-20:00',
+  'order_time' => '11:00-21:00',
   'withdraw_time' => '02:00-20:00',
   'currency' => '$',
   'purchase_amount' => '1000',
   'customer_service1' => '',
   'customer_service2' => '',
+  'min_price' => '50',
+  'max_price' => '100',
 );
