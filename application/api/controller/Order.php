@@ -43,7 +43,7 @@ class Order extends Api
         } 
         if($lv['max_order']<$new_sort_id){
             $this->error(__("The order limit has been reached"));
-        }  
+        } 
         if($this->auth->money<0){
             $this->error(__("Insufficient balance"));
         }
@@ -64,6 +64,7 @@ class Order extends Api
                 $mark_no=1; 
             }
             $number = $mark_info['number'];
+            Db::name("m_order_mark")->where('id', $mark_info['id'])->update(['status'=>1,'over_time'=>time()]);
         }else{      
             $min_price = config("site.min_price") ?? 50;
             $max_price = config("site.max_price") ?? 100;
@@ -74,13 +75,14 @@ class Order extends Api
                             ->where('price', '<=', $maxPrice)
                             ->orderRaw('RAND()')
                             ->find();
+
             $commission_rate=$lv['commission_rate'];
         }
         if(empty($product)){
             $this->error(__("No product data"));
         }        
-        Db::name("m_order_mark")->where('id', $mark_info['id'])->update(['status'=>1,'over_time'=>time()]);
-
+        
+        $amount=abs($product['price']); 
         $commission=round($amount * $number * $commission_rate /100,2);
         $order_sn =\app\common\model\Order::getOrderSn("O");
 
