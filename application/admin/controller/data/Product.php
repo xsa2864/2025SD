@@ -85,6 +85,7 @@ class Product extends Backend
                     ->field("*") 
                     ->where("price",">=",$price)
                     ->order("price asc")
+                    ->limit(30)
                     ->select(); 
         $responseData = [
             'list' => $list,
