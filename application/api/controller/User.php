@@ -43,6 +43,7 @@ class User extends Api
      * @ApiReturnParams   (name="day_commission", type="string", description="当天收益")
      * @ApiReturnParams   (name="frozen_amount", type="string", description="冻结金额")
      * @ApiReturnParams   (name="signiture", type="string", description="信誉分")
+     * @ApiReturnParams   (name="is_paypwd", type="string", description="是否支付密码 0否 1是")
      */
     public function index()
     {
@@ -57,6 +58,7 @@ class User extends Api
             'invite_code' => $this->auth->invite_code,
             'deal_count' => $this->auth->deal_count,
             'signiture' => $this->auth->signiture,
+            'is_paypwd' => empty($this->auth->pay_password)?0:1,
             'max_order' => Db::name("m_level")->where("level",$this->auth->level)->value("max_order")??0,
             'day_commission' => Db::name("m_order")->where("user_id",$this->auth->id)->where("status",1)->whereTime('create_time', 'today')->sum("commission"),
             'frozen_amount' => Db::name("m_order")->where("user_id",$this->auth->id)->where("status",2)->sum("commission"),
