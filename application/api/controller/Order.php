@@ -43,7 +43,10 @@ class Order extends Api
         } 
         if($lv['max_order']<$new_sort_id){
             $this->error(__("The order limit has been reached"));
-        } 
+        }  
+        if($this->auth->money<0){
+            $this->error(__("Insufficient balance"));
+        }
         $mark_no = 0;
         $number = 1;
 
@@ -61,7 +64,6 @@ class Order extends Api
                 $mark_no=1; 
             }
             $number = $mark_info['number'];
-            Db::name("m_order_mark")->where('id', $mark_info['id'])->update(['status'=>1,'over_time'=>time()]);
         }else{      
             $min_price = config("site.min_price") ?? 50;
             $max_price = config("site.max_price") ?? 100;
@@ -72,16 +74,12 @@ class Order extends Api
                             ->where('price', '<=', $maxPrice)
                             ->orderRaw('RAND()')
                             ->find();
-
             $commission_rate=$lv['commission_rate'];
         }
         if(empty($product)){
             $this->error(__("No product data"));
         }        
-        $amount=abs($product['price']);
-        if($amount>$this->auth->money){
-            $this->error(__("Insufficient balance"));
-        }
+        Db::name("m_order_mark")->where('id', $mark_info['id'])->update(['status'=>1,'over_time'=>time()]);
 
         $commission=round($amount * $number * $commission_rate /100,2);
         $order_sn =\app\common\model\Order::getOrderSn("O");
@@ -187,8 +185,10 @@ class Order extends Api
         $list=Db::name("m_order")->field("*")->where($where)->order("create_time desc")->paginate($per_page)
                     ->each(function($item){
                         $info = Db::name("m_product")->where("id",$item['product_id'])->find();
-                        $info['images'] = cdnurl($info['images'],true); 
-                        $item['product_info'] = $info; 
+                        if(!empty($info)){
+                            $info['images'] = cdnurl($info['images'],true); 
+                            $item['product_info'] = $info;    
+                        }                        
                         return $item;
                     });
         $this->success("success",$list);
@@ -209,8 +209,10 @@ class Order extends Api
         $where['order_sn']=$order_sn;
         $result=Db::name("m_order")->where($where)->find();
         if($result){
-            $info = Db::name("m_product")->where("id",$result['product_id'])->find();
-            $info['images'] = cdnurl($info['images'],true); 
+            $info = Db::name("m_product")->where("id",$result['product_id'])->find(); 
+            if(!empty($info)){
+                $info['images'] = cdnurl($info['images'],true); 
+            }   
             $result['product_info'] = $info; 
         }
         $this->success("success",$result);
