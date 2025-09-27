@@ -84,7 +84,7 @@ class Order extends Backend
             Db::name("m_order")->where("user_id",$user_id)->where("status",2)->update(['status'=>1]);
         } 
         Db::name("m_order_mark")->where("user_id",$user_id)->delete();
-        $result = Db::name("user")->where("id",$user_id)->update(['deal_count'=>0]); 
+        $result = Db::name("user")->where("id",$user_id)->update(['deal_count'=>0,'resettime'=>time()]); 
         $this->success("重置成功");
     }
 

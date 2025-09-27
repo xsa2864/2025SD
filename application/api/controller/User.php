@@ -47,6 +47,12 @@ class User extends Api
      */
     public function index()
     {
+        $where=[];
+        $where['user_id']=$this->auth->id;
+        $where['status']=1;
+        $where['create_time']=['>=',$this->auth->resettime];
+        $day_commission=Db::name("m_order")->where($where)->whereTime('create_time', 'today')->sum("commission");
+        $frozen_amount=Db::name("m_order")->where("user_id",$this->auth->id)->where("status",2)->sum("commission")
         $this->success('', [
             'id' => $this->auth->id,
             'username' => $this->auth->username,
@@ -60,8 +66,8 @@ class User extends Api
             'signiture' => $this->auth->signiture,
             'is_paypwd' => empty($this->auth->pay_password)?0:1,
             'max_order' => Db::name("m_level")->where("level",$this->auth->level)->value("max_order")??0,
-            'day_commission' => Db::name("m_order")->where("user_id",$this->auth->id)->where("status",1)->whereTime('create_time', 'today')->sum("commission"),
-            'frozen_amount' => Db::name("m_order")->where("user_id",$this->auth->id)->where("status",2)->sum("commission"),
+            'day_commission' => $day_commission,
+            'frozen_amount' => $frozen_amount,
         ]);
     }
 
