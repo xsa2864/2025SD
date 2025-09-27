@@ -67,10 +67,17 @@ class Order extends Api
             $number = $mark_info['number'];
             Db::name("m_order_mark")->where('id', $mark_info['id'])->update(['status'=>1,'over_time'=>time()]);
         }else{      
+            $product_price =  Db::name("m_product")->max("price");
             $min_price = config("site.min_price") ?? 50;
             $max_price = config("site.max_price") ?? 100;
             $minPrice = $this->auth->money * $min_price / 100;
             $maxPrice = $this->auth->money * $max_price / 100;
+            $num = intval($maxPrice / $product_price); 
+            if($num > 1){
+                $number = $num;
+                $maxPrice = $product_price;
+                $minPrice = $product_price * 0.6;
+            }
             $product = Db::name("m_product")
                             ->where('price', '>', $minPrice)
                             ->where('price', '<=', $maxPrice)

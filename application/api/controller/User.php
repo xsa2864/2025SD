@@ -52,7 +52,7 @@ class User extends Api
         $where['status']=1;
         $where['create_time']=['>=',$this->auth->resettime];
         $day_commission=Db::name("m_order")->where($where)->whereTime('create_time', 'today')->sum("commission");
-        $frozen_amount=Db::name("m_order")->where("user_id",$this->auth->id)->where("status",2)->sum("commission")
+        $frozen_amount=Db::name("m_order")->field("sum(amount + commission) as total")->where("user_id",$this->auth->id)->where("status","in",[0,2])->find()["total"];
         $this->success('', [
             'id' => $this->auth->id,
             'username' => $this->auth->username,

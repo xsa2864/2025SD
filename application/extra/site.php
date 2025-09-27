@@ -49,7 +49,7 @@ return array (
   'order_time' => '11:00-23:00',
   'withdraw_time' => '02:00-20:00',
   'currency' => '$',
-  'purchase_amount' => '1000',
+  'purchase_amount' => '300',
   'customer_service1' => '',
   'customer_service2' => '',
   'min_price' => '50',

@@ -210,7 +210,17 @@ class Auth
      */
     public function login($account, $password)
     {
-        $field = Validate::is($account, 'email') ? 'email' : (Validate::regex($account, '/^1\d{10}$/') ? 'mobile' : 'username');
+        $login_method = config("site.login_method")??1;
+        if($login_method==2){
+            $field = 'username';
+        }elseif($login_method==3){
+            $field = 'mobile';
+        }elseif($login_method==4){
+            $field = 'email';
+        }else{
+            $field = Validate::is($account, 'email') ? 'email' : (Validate::regex($account, '/^\d{3,15}$/') ? 'mobile' : 'username');
+        }
+        
         $user = User::get([$field => $account]);
         if (!$user) {
             $this->setError('Account is incorrect');
