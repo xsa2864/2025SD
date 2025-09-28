@@ -32,14 +32,16 @@ class Order extends Api
         $order_sn = Db::name("m_order")->where("user_id",$this->auth->id)->where("status",0)->value("order_sn");
         if($order_sn){
             $this->error(__("The order has not been completed"),['order_sn'=>$order_sn]);
-        }
-        $oinfo = Db::name("m_order")->where("user_id",$this->auth->id)->where("status", 2)->find();
+        } 
+        $oinfo = Db::name("m_order")->where("user_id",$this->auth->id)->where("status", 2)->order("id desc")->find(); 
         if(empty($oinfo)){
             $purchase_amount=config("site.purchase_amount")??0;
             if($purchase_amount>0 && $this->auth->money<$purchase_amount){
                 $this->error(__("Amount less than %s",[$purchase_amount]));
             }
-        }         
+        }else if($oinfo['mark_no']==2){
+            $this->error(__("The order has not been completed"),['order_sn'=>$oinfo['order_sn']]);
+        }     
         $lv = Db::name("m_level")->where('level', $this->auth->level??1)->find();    
         if(empty($lv)){
             $this->error(__("Level not set yet"));
