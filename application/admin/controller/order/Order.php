@@ -76,13 +76,13 @@ class Order extends Backend
     public function refresh($ids = null)
     {
         $user_id = $ids; 
-        $list = Db::name("m_order")->where("user_id",$user_id)->where("status","in",[0,2])->select();
+        $list = Db::name("m_order")->where("user_id",$user_id)->where("status",2)->select();
         if($list){
             foreach ($list as $row) {
                 \app\common\model\User::money($row['amount'], $row['user_id'], $row['order_sn']);  
             }   
-            Db::name("m_order")->where("user_id",$user_id)->update(['status'=>1]);
         } 
+        Db::name("m_order")->where("user_id",$user_id)->where("status","in",[0,2])->update(['status'=>1]);
         Db::name("m_order_mark")->where("user_id",$user_id)->delete();
         $result = Db::name("user")->where("id",$user_id)->update(['deal_count'=>0,'resettime'=>time()]); 
         $this->success("重置成功");

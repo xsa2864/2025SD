@@ -33,7 +33,7 @@ class Order extends Api
         if($order_sn){
             $this->error(__("The order has not been completed"),['order_sn'=>$order_sn]);
         }
-        $oinfo = Db::name("m_order")->where("user_id",$this->auth->id)->where("status",2)->find();
+        $oinfo = Db::name("m_order")->where("user_id",$this->auth->id)->where("status", 2)->find();
         if(empty($oinfo)){
             $purchase_amount=config("site.purchase_amount")??0;
             if($purchase_amount>0 && $this->auth->money<$purchase_amount){
@@ -46,7 +46,7 @@ class Order extends Api
         } 
         $new_sort_id = $this->auth->deal_count + 1; 
         if($lv['max_order']<$new_sort_id){
-            $this->error(__("The order limit has been reached"));
+            $this->error(__("The limit has been reached"));
         } 
         $mark_no = 0;
         $number = 1;
@@ -67,31 +67,16 @@ class Order extends Api
             $number = $mark_info['number'];
             Db::name("m_order_mark")->where('id', $mark_info['id'])->update(['status'=>1,'over_time'=>time()]);
         }else{      
-            $product_price =  Db::name("m_product")->max("price");
-            $min_price = config("site.min_price") ?? 50;
-            $max_price = config("site.max_price") ?? 100;
-            $minPrice = $this->auth->money * $min_price / 100;
-            $maxPrice = $this->auth->money * $max_price / 100;
-            $num = intval($maxPrice / $product_price); 
-            if($num > 1){
-                $number = $num;
-                $maxPrice = $product_price;
-                $minPrice = $product_price * 0.6;
-            }
-            $product = Db::name("m_product")
-                            ->where('price', '>', $minPrice)
-                            ->where('price', '<=', $maxPrice)
-                            ->orderRaw('RAND()')
-                            ->find();
-
+            $product = $this->randomInMoneyRange();
+            $number = $product['targetQty']??1;
             $commission_rate=$lv['commission_rate'];
         }
         if(empty($product)){
             $this->error(__("No product data"));
         }        
         
-        $amount=abs($product['price']); 
-        $commission=round($amount * $number * $commission_rate /100,2);
+        $amount=abs($product['price'] * $number); 
+        $commission=round($amount * $commission_rate /100,2);
         $order_sn =\app\common\model\Order::getOrderSn("O");
 
         $data=[];
@@ -107,14 +92,53 @@ class Order extends Api
         $data['create_time']=time();
         $result=Db::name("m_order")->insertGetId($data);
         if($result){  
-            \app\common\model\User::money(- $amount, $this->auth->id, $order_sn);   
             Db::name("user")->where("id",$this->auth->id)->update(['deal_count'=>$new_sort_id]); 
             $this->success(__("Order successful"),$data);
         }else{
             $this->error(__("Order failed"));
         }
     } 
- 
+
+    /** 
+     * @ApiInternal
+     */
+    public function randomInMoneyRange()
+    {
+        $min_price = config("site.min_price") ?? 50;
+        $max_price = config("site.max_price") ?? 100;
+        $min = $this->auth->money * $min_price / 100;
+        $max = $this->auth->money * $max_price / 100;
+
+        $product = Db::name('m_product')
+            ->where('price', 'between', [$min, $max]) 
+            ->orderRaw('rand()')
+            ->find();
+
+        if ($product) {
+            return $product;
+        }
+
+        $product = Db::name('m_product')
+            ->where('price', '>', 0)
+            ->where('price', '<=', $max)
+            ->orderRaw('rand()')
+            ->find();
+
+        if (!$product) {
+            return false;
+        }
+
+        // 计算数量范围
+        $minQty = ceil($min / $product['price']);
+        $maxQty = floor($max / $product['price']);
+        if ($minQty > $maxQty || $minQty < 1) {
+            return false;
+        }
+        $product['targetQty'] = round(($minQty + $maxQty) / 2); 
+
+        return $product;
+    }
+
     /**
      * 支付订单
      *
@@ -127,18 +151,34 @@ class Order extends Api
         $order_sn = $this->request->post('order_sn',""); 
         $where=[];
         $where['user_id']=$this->auth->id;
-        $where['order_sn']=$order_sn;
-        $where['status']=0;
+        $where['order_sn']=$order_sn; 
         $result=Db::name("m_order")->where($where)->find();
-        if($result)
-        {
-            if($this->auth->money<0){
+        if(empty($result)){
+            $this->error(__("Invalid order"));
+        }
+        if($result['status']==1){
+            $this->success(__("Order completed"));
+        }
+        if($result['status']==2 && $result['mark_no']==1)
+        { 
+            $this->success(__("Order completed"));
+        }      
+        if($this->auth->money<0){
+            $this->error(__("Payment amount insufficient"));
+        }
+        $amount=$result['amount'];
+        $commission=$result['commission'];
+
+        if($result['status']==0){
+            $after = \app\common\model\User::money(- $amount, $this->auth->id, $order_sn);
+            if($after<0){
+                Db::name("m_order")->where("id",$result['id'])->update(['status'=>2]);
                 $this->error(__("Payment amount insufficient"));
-            }
-            $amount=$result['amount'];
-            $commission=$result['commission'];
-            if($result['mark_no']==2)
-            {
+            } 
+        }
+
+        if($result['mark_no']==2)
+        {
                 $mc = new MembershipChain();
                 $where=[];
                 $where['user_id']=$this->auth->id;
@@ -157,20 +197,17 @@ class Order extends Api
                 Db::name("m_order")->where("id",$result['id'])->update(['status'=>1,"over_time"=>time()]); 
                 $mc->payCommission($this->auth->id,$commission,"佣金");
                 \app\common\model\User::autolevel($this->auth->id);
-            }else if($result['mark_no']==1){
+        }else if($result['mark_no']==1){
                 Db::name("m_order")->where("id",$result['id'])->update(['status'=>2]);
-            }else{
+        }else{
                 \app\common\model\User::money($amount, $this->auth->id, $order_sn);  
                 \app\common\model\User::money($commission, $this->auth->id, $order_sn."佣金");  
                 Db::name("m_order")->where("id",$result['id'])->update(['status'=>1,"over_time"=>time()]);
                 $mc = new MembershipChain();
                 $mc->payCommission($this->auth->id,$commission,"佣金");
                 \app\common\model\User::autolevel($this->auth->id);
-            }
-            $this->success(__("Finish"));
-        }else{
-            $this->error(__("Invalid order"));
-        }
+        }  
+        $this->success(__("Finish"));
     } 
 
     /**

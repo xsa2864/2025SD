@@ -94,6 +94,7 @@ class User extends Model
     {
         Db::startTrans();
         try {
+            $after = 0;
             $user = self::lock(true)->find($user_id);
             if ($user && $money != 0) {
                 $before = $user->money;
@@ -105,6 +106,7 @@ class User extends Model
                 MoneyLog::create(['user_id' => $user_id, 'money' => $money, 'before' => $before, 'after' => $after, 'memo' => $memo]);
             }
             Db::commit();
+            return $after;
         } catch (\Exception $e) {
             Db::rollback();
         }

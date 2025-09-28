@@ -67,7 +67,7 @@ class User extends Api
             'is_paypwd' => empty($this->auth->pay_password)?0:1,
             'max_order' => Db::name("m_level")->where("level",$this->auth->level)->value("max_order")??0,
             'day_commission' => $day_commission,
-            'frozen_amount' => $frozen_amount,
+            'frozen_amount' => $frozen_amount??0,
         ]);
     }
 
