@@ -219,6 +219,8 @@ class Order extends Api
      * @ApiParams (name="page", type="string", description="页码") 
      * @ApiParams (name="per_page", type="string", description="查询数量") 
      * @ApiParams (name="status", type="string", description="状态") 
+     * @ApiReturnParams   (name="status", type="integer", description="0待支付 1完成 2冻结")
+     * @ApiReturnParams   (name="mark_no", type="integer", description="0普通 1派单 2派单支付")
      *   
      */
     public function getOrderList()

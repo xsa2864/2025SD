@@ -3,6 +3,7 @@
 return [
     'Guest'                                          => '游客',
     'Finish'                            => '完成',
+    'Sign-in failed, please contact customer service'                            => '簽到失敗，請聯絡客服',
     'Sign in successfully'                            => '簽到成功',
     'Sign-in failed'                            => '簽到失敗',
     'Request Error'                            => '請求錯誤',

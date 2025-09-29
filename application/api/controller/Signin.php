@@ -18,7 +18,7 @@ class Signin extends Api
     protected $noNeedRight = ['*'];
 
     /**
-     * 前端记录
+     * 签到记录
      * @ApiMethod (GET) 
      * 
      *
@@ -47,20 +47,25 @@ class Signin extends Api
         $type = $this->request->post("type","");    
         $type = $type?:"normal";
         $user_id = $this->auth->id;
-        // 开始事务
-        Db::startTrans();
-        try {
-            // 使用FOR UPDATE锁定查询，防止并发
-            $signin = \addons\signin\model\Signin::where('user_id', $user_id)
+
+        $signin = \addons\signin\model\Signin::where('user_id', $user_id)
                 ->where("type",$type)
                 ->whereTime('createtime', 'today')
                 ->lock(true)
                 ->find();
+        if ($signin) { 
+            $this->error(__("Signed in today, please come back tomorrow"));
+        }
 
-            if ($signin) {
-                Db::rollback(); 
-                $this->error(__("Signed in today, please come back tomorrow"));
-            }
+        if($type == "normal" && $this->auth->sign_normal==0){
+            $this->error(__("Sign-in failed, please contact customer service"));
+        } 
+        if($type == "fillup" && $this->auth->sign_fillup==0){
+            $this->error(__("Sign-in failed, please contact customer service"));
+        }
+        // 开始事务
+        Db::startTrans();
+        try {
 
             // 查询最后一次签到记录并锁定
             $lastdata = \addons\signin\model\Signin::where('user_id', $user_id)
@@ -85,6 +90,12 @@ class Signin extends Api
             Db::rollback(); 
             $this->error(__("Sign-in failed"));
         }
+        if($type == "normal"){
+            Db::name("user")->where("id",$this->auth->id)->update(['sign_normal'=>0]);
+        }
+        if($type == "fillup"){
+            Db::name("user")->where("id",$this->auth->id)->update(['sign_fillup'=>0]);
+        }        
         $this->success(__("Sign in successfully")); 
     }
 }

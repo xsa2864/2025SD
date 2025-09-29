@@ -272,7 +272,7 @@
                                             </div>
                                         <a href="#6623d06f" class="list-group-item" data-toggle="collapse" data-parent="#sidebar">签到接口  <i class="fa fa-caret-down"></i></a>
                     <div class="child collapse" id="6623d06f">
-                                                <a href="javascript:;" data-id="24" class="list-group-item">首页                            <span class="tag">
+                                                <a href="javascript:;" data-id="24" class="list-group-item">签到记录                            <span class="tag">
                                                                     <span class="label label-success pull-right noneedlogin">登</span>
                                                             </span>
                         </a>
@@ -695,7 +695,27 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading"><strong>返回参数</strong></div>
                                                 <div class="panel-body">
-                                                                                                        无
+                                                                                                        <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>名称</th>
+                                                                <th>类型</th>
+                                                                <th>描述</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                                                                                        <tr>
+                                                                <td>status</td>
+                                                                <td>integer</td>
+                                                                <td>0待支付 1完成 2冻结</td>
+                                                            </tr>
+                                                                                                                        <tr>
+                                                                <td>mark_no</td>
+                                                                <td>integer</td>
+                                                                <td>0普通 1派单 2派单支付</td>
+                                                            </tr>
+                                                                                                                    </tbody>
+                                                    </table>
                                                                                                     </div>
                                             </div>
                                         </div>
@@ -3806,7 +3826,7 @@
                     <div class="panel-heading" id="heading-24">
                         <h4 class="panel-title">
                             <span class="label label-success">GET</span>
-                            <a data-toggle="collapse" data-parent="#accordion24" href="#collapseOne24"> 首页 <span class="text-muted">/api/signin/index</span></a>
+                            <a data-toggle="collapse" data-parent="#accordion24" href="#collapseOne24"> 签到记录 <span class="text-muted">/api/signin/index</span></a>
                         </h4>
                     </div>
                     <div id="collapseOne24" class="panel-collapse collapse">
@@ -3824,7 +3844,7 @@
 
                                 <div class="tab-pane active" id="info24">
                                     <div class="well">
-                                        首页                                    </div>
+                                        签到记录                                    </div>
                                     <div class="panel panel-default">
                                         <div class="panel-heading"><strong>权限</strong></div>
                                         <div class="panel-body">
@@ -5259,7 +5279,7 @@
 
                 </div>
                 <div class="col-md-6" align="right">
-                    Generated on 2025-09-29 14:09:37 <a href="./" target="_blank">Fish</a>
+                    Generated on 2025-09-29 14:55:36 <a href="./" target="_blank">Fish</a>
                 </div>
             </div>
 

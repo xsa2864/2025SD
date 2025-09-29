@@ -55,6 +55,24 @@
             <input id="c-signiture" data-rule="required" class="form-control" name="row[signiture]" type="text" value="{$row.signiture|htmlentities}">
         </div>
     </div>  
+    <div class="form-group">
+        <label for="c-score" class="control-label col-xs-12 col-sm-2">{:__('签到1')}:</label>
+        <div class="col-xs-12 col-sm-4"> 
+            <select name="row[sign_normal]" id="c-sign_normal" class="form-control selectpicker">
+                <option value="0" {in name="$row.sign_normal" value="0"}selected{/in}>关闭</option>
+                <option value="1" {in name="$row.sign_normal" value="1"}selected{/in}>开启</option> 
+            </select>
+        </div>
+    </div>  
+    <div class="form-group">
+        <label for="c-score" class="control-label col-xs-12 col-sm-2">{:__('签到2')}:</label>
+        <div class="col-xs-12 col-sm-4"> 
+            <select name="row[sign_fillup]" id="c-sign_fillup" class="form-control selectpicker">
+                <option value="0" {in name="$row.sign_fillup" value="0"}selected{/in}>关闭</option>
+                <option value="1" {in name="$row.sign_fillup" value="1"}selected{/in}>开启</option> 
+            </select>
+        </div>
+    </div>  
 
     <div class="form-group">
         <label for="c-password" class="control-label col-xs-12 col-sm-2">{:__('Password')}:</label>
