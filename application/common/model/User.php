@@ -118,7 +118,7 @@ class User extends Model
      * @param int    $user_id 会员ID
      * @param string $memo    备注
      */
-    public static function score($score, $user_id, $memo)
+    public static function score($score, $user_id, $type, $memo)
     {
         Db::startTrans();
         try {
@@ -130,7 +130,7 @@ class User extends Model
                 //更新会员信息
                 $user->save(['score' => $after, 'level' => $level]);
                 //写入日志
-                ScoreLog::create(['user_id' => $user_id, 'score' => $score, 'before' => $before, 'after' => $after, 'memo' => $memo]);
+                ScoreLog::create(['user_id' => $user_id, 'score' => $score, 'before' => $before, 'after' => $after, 'type' => $type, 'memo' => $memo]);
             }
             Db::commit();
         } catch (\Exception $e) {

@@ -3,6 +3,10 @@
 return [
     'Guest'                                          => '游客',
     'Finish'                            => '完成',
+    'Sign in successfully'                            => '簽到成功',
+    'Sign-in failed'                            => '簽到失敗',
+    'Request Error'                            => '請求錯誤',
+    'Signed in today, please come back tomorrow'                            => '今天已簽到,請明天再來',
     'Invalid supervisor username'                            => '上司用戶名無效',
     'Order completed'                            => '訂單完成',
     'Login password saved successfully'                                          => '登入密碼保存成功',
