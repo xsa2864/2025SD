@@ -65,32 +65,63 @@ class User extends Backend
      */
     public function add()
     {
-        if ($this->request->isPost()) {
-            $this->token();
-            $params = $this->request->post('row/a');  
-            $exists = $this->model->where('username',"=", $params['username'])->find(); 
-            if ($exists) {
-                $this->error('用户名已存在，请更换'); 
-            }
-            $exists = $this->model->where('mobile',"=", $params['mobile'])->find(); 
-            if ($exists) {
-                $this->error('手机号已存在，请更换'); 
-            }
-            if(!empty($params['password'])){
-                $params['salt'] = Random::alnum(); 
-                $params['password'] = $this->getEncryptPassword($params['password'], $params['salt']);
-            } 
-            if(!empty($params['pay_password'])){
-                $params['pay_salt'] = Random::alnum(); 
-                $params['pay_password'] = $this->getEncryptPassword($params['pay_password'], $params['pay_salt']);
-            } 
-            $params['nickname'] = $params['username'];
-            $params['email'] = $params['username']."@gamil.com";
-            $params['invite_code'] = $this->getInviteCode(1);
-            $this->request->post(['row' => $params]);
+        if (false === $this->request->isPost()) {
+            return $this->view->fetch();
         }
 
-        return parent::add();
+        $params = $this->request->post('row/a');
+        if (empty($params)) {
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        $this->token();
+        $exists = $this->model->where('username',"=", $params['username'])->find(); 
+        if ($exists) {
+            $this->error('用户名已存在，请更换'); 
+        }
+        $exists = $this->model->where('mobile',"=", $params['mobile'])->find(); 
+        if ($exists) {
+            $this->error('手机号已存在，请更换'); 
+        }
+        if(!empty($params['password'])){
+            $params['salt'] = Random::alnum(); 
+            $params['password'] = $this->getEncryptPassword($params['password'], $params['salt']);
+        } 
+        if(!empty($params['pay_password'])){
+            $params['pay_salt'] = Random::alnum(); 
+            $params['pay_password'] = $this->getEncryptPassword($params['pay_password'], $params['pay_salt']);
+        } 
+        $params['nickname'] = $params['username'];
+        $params['email'] = $params['username']."@gamil.com";
+        $params['invite_code'] = $this->getInviteCode(1);
+
+        $params = $this->preExcludeFields($params);
+
+        if ($this->dataLimit && $this->dataLimitFieldAutoFill) {
+            $params[$this->dataLimitField] = $this->auth->id;
+        }
+        $result = false;
+        Db::startTrans();
+        try {
+            //是否采用模型验证
+            if ($this->modelValidate) {
+                $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
+                $this->model->validateFailException()->validate($validate);
+            }
+            $result = $this->model->allowField(true)->save($params); 
+            Db::commit();
+        } catch (ValidateException|PDOException|Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        if ($result === false) {
+            $this->error(__('No rows were inserted'));
+        }
+        if($params['pid']>0){
+            $mc = new \app\common\model\MembershipChain;
+            $mc->synUserChain($this->model->id, $params['pid']);
+        }
+        $this->success();
     }
 
     /**
