@@ -247,6 +247,7 @@ class User extends Api
      * @ApiParams (name="username", type="string", required=true, description="用户名")
      * @ApiParams (name="nickname", type="string", required=true, description="昵称")
      * @ApiParams (name="bio", type="string", required=true, description="个人简介")
+     * @ApiParams (name="pay_password", type="string", description="密码")
      */
     public function profile()
     {
@@ -254,6 +255,7 @@ class User extends Api
         $username = $this->request->post('username');
         $nickname = $this->request->post('nickname');
         $bio = $this->request->post('bio');
+        $pay_password = $this->request->post('pay_password',"");
         $avatar = $this->request->post('avatar', '', 'trim,strip_tags,htmlspecialchars');
         if ($username) {
             $exists = \app\common\model\User::where('username', $username)->where('id', '<>', $this->auth->id)->find();
@@ -269,6 +271,9 @@ class User extends Api
             }
             $user->nickname = $nickname;
         }
+        if ($this->auth->pay_password != $this->getEncryptPassword($pay_password, $this->auth->pay_salt)) {
+            $this->error(__('Secondary password error'));
+        }  
         $user->bio = $bio;
         $user->avatar = $avatar;
         $user->save();
