@@ -277,7 +277,7 @@ class User extends Api
         $user->bio = $bio;
         $user->avatar = $avatar;
         $user->save();
-        $this->success();
+        $this->success(__("Saved successfully"));
     }
 
     /**
@@ -520,4 +520,22 @@ class User extends Api
             $this->error($this->auth->getError());
         }
     }
+
+
+    /**
+     * 获取金额日志
+     *
+     * @ApiMethod (GET) 
+     * @ApiParams (name="page", type="string", description="页码") 
+     * @ApiParams (name="per_page", type="string", description="查询数量")  
+     *   
+     */
+    public function getMoneyLogList()
+    {
+        $page = $this->request->get("page",1);        
+        $per_page = $this->request->get("per_page",20);
+
+        $list=Db::name("user_money_log")->where("user_id",$this->auth->id)->order("createtime desc")->paginate($per_page);
+        $this->success("success",$list);
+    } 
 }
