@@ -26,8 +26,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id'), sortable: true}, 
-                        {field: 'pid', title: __('上级ID'), operate: 'LIKE'},
+                        {field: 'id', title: __('Id'), operate: false}, 
+                        {field: 'pid', title: __('上级ID'), visible: false},
+                        {field: 'puser.username', title: __('上级用户'), operate: 'LIKE'},
                         {field: 'username', title: __('Username'), operate: 'LIKE'},
                         {field: 'mobile', title: __('Mobile'), operate: 'LIKE'},
                         {field: 'email', title: __('Email'), operate: 'LIKE'},

@@ -51,13 +51,14 @@ class OrderMark extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
             $list = $this->model
-                    ->with(['product'])
+                    ->with(['product','user'])
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);
 
             foreach ($list as $row) {
                 
+                $row->getRelation('user')->visible(['username']);
                 $row->getRelation('product')->visible(['price']);
             }
 

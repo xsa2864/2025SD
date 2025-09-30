@@ -44,13 +44,14 @@ class User extends Backend
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $list = $this->model
-                ->with('group')
+                ->with('puser')
                 ->where($where)
                 ->order($sort, $order)
                 ->paginate($limit);
             foreach ($list as $k => $v) {
+                $v->getRelation('puser')->visible(['username']);
                 $v->avatar = $v->avatar ? cdnurl($v->avatar, true) : letter_avatar($v->nickname);
-                $v->hidden(['password', 'salt']);
+                $v->hidden(['password', 'salt', 'pay_password', 'pay_salt']);
                 $v->frozen_amount = Db::name("m_order")->where("user_id",$v->id)->where("status",2)->sum("amount");
             }
             $result = array("total" => $list->total(), "rows" => $list->items());

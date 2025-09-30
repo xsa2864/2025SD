@@ -26,7 +26,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id'), operate:false},
-                        {field: 'user_id', title: __('User_id')},
+                        {field: 'user_id', title: __('User_id'), visible: false},
+                        {field: 'user.username', title: __('用户名'), operate: 'LIKE'},
                         // {field: 'product_id', title: __('Product_id'), operate:false},
                         {field: 'product.price', title: __('产品金额'), operate:false},
                         {field: 'number', title: __('Number'), operate:false},

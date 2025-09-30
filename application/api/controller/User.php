@@ -52,7 +52,11 @@ class User extends Api
         $where['status']=1;
         $where['create_time']=['>=',$this->auth->resettime];
         $day_commission=Db::name("m_order")->where($where)->whereTime('create_time', 'today')->sum("commission");
-        $frozen_amount=Db::name("m_order")->field("sum(amount + commission) as total")->where("user_id",$this->auth->id)->where("status",2)->find()["total"];
+        $frozen_num=Db::name("m_order")->where("user_id",$this->auth->id)->where("status",2)->count();
+        $frozen_amount=0;
+        if($frozen_num>0){
+            $frozen_amount=Db::name("m_order")->field("sum(amount + commission) as total")->where("user_id",$this->auth->id)->where("status",2)->find()["total"];
+        }
         $this->success('', [
             'id' => $this->auth->id,
             'username' => $this->auth->username,
@@ -62,7 +66,7 @@ class User extends Api
             'money' => $this->auth->money,
             'score' => $this->auth->score,
             'invite_code' => $this->auth->invite_code,
-            'deal_count' => $this->auth->deal_count,
+            'deal_count' => $this->auth->deal_count - $frozen_num,
             'signiture' => $this->auth->signiture,
             'is_paypwd' => empty($this->auth->pay_password)?0:1,
             'max_order' => Db::name("m_level")->where("level",$this->auth->level)->value("max_order")??0,

@@ -48,5 +48,9 @@ class OrderMark extends Model
     {
         return $this->belongsTo('app\admin\model\data\Product', 'product_id', 'id', [], 'LEFT')->setEagerlyType(0);
     }
+    public function user()
+    {
+        return $this->belongsTo('app\admin\model\User', 'user_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
 
 }
