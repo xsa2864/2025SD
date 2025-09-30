@@ -74,8 +74,8 @@ class OrderWithdraw extends Backend
             }
             $result = $row->allowField(true)->save($params);
             if($result && $params['status']==2){
-                \app\common\model\User::money($row->amount, $row->user_id, $row->order_sn); 
-                \app\common\model\User::money($row->fees, $row->user_id, $row->order_sn."手续费");   
+                \app\common\model\User::money($row->amount, $row->user_id, $row->order_sn, 2); 
+                \app\common\model\User::money($row->fees, $row->user_id, $row->order_sn."手续费", 2);   
             }
             Db::commit();
         } catch (ValidateException|PDOException|Exception $e) {

@@ -90,7 +90,7 @@ class User extends Model
      * @param int    $user_id 会员ID
      * @param string $memo    备注
      */
-    public static function money($money, $user_id, $memo)
+    public static function money($money, $user_id, $memo="", $type=0)
     {
         Db::startTrans();
         try {
@@ -103,7 +103,7 @@ class User extends Model
                 //更新会员信息
                 $user->save(['money' => $after]);
                 //写入日志
-                MoneyLog::create(['user_id' => $user_id, 'money' => $money, 'before' => $before, 'after' => $after, 'memo' => $memo]);
+                MoneyLog::create(['user_id' => $user_id, 'money' => $money, 'before' => $before, 'after' => $after, 'type' => $type, 'memo' => $memo]);
             }
             Db::commit();
             return $after;

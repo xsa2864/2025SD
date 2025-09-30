@@ -1,9 +1,13 @@
 <?php
 
 return [
-    'Guest'                                          => '游客',
-    'Finish'                            => '完成',
+    'Guest' => '游客',
+    'Finish' => '完成',
+    'Already withdrawn' => '已經提現過',
+    'There is a withdrawal order waiting for review' => '已有提現訂單等待審核',
+    'To withdraw cash at the current level, you need to complete %s orders' => '當前等級提現需完成%s筆訂單',
     'Secondary password error'                            => '二級密碼錯誤',
+    'Secondary password not set'                            => '二級密碼未设置',
     'Insufficient account balance'                            => '帳戶可用餘額不足',
     'Item is not yet completed'          => '物品尚未完成',
     'Please fill in complete information'   => '請填入完整資料',

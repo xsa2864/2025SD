@@ -30,17 +30,33 @@ class OrderWithdraw extends Api
             $this->error(__("Please enter a valid amount"));
         }
         if($price>$this->auth->money){
-            $this->error(__("Insufficient balance"));
+            $this->error(__("Insufficient account balance"));
+        }
+        if(empty($this->auth->pay_password)){
+            $this->error(__('Secondary password not set')); 
         }
         $py = new \app\api\controller\User;
         if ($this->auth->pay_password != $py->getEncryptPassword($pay_password, $this->auth->pay_salt)) {
-            $this->error(__('The password is incorrect')); 
+            $this->error(__('Secondary password error')); 
         }  
         $mc = new \app\common\model\MembershipChain(); 
         $withdraw_time = $mc->isWithinTimeRange("withdraw_time");
         if(!$withdraw_time){ 
             $this->error(__("Please operate within %s",[config("site.withdraw_time")]));
-        } 
+        }
+
+        $withdraw=Db::name("m_order_withdraw")->where("user_id",$this->auth->id)->order("create_time desc")->find(); 
+        if($withdraw['status']==0){
+            $this->error(__('There is a withdrawal order waiting for review')); 
+        }
+        else if($withdraw['status']==1 && $withdraw['create_time']>$this->auth->resettime){
+            $this->error(__('Already withdrawn')); 
+        }
+        $max_order=Db::name("m_level")->where("level",$this->auth->level)->value("max_order"); 
+        if($max_order>0 && $this->auth->deal_count<$max_order){ 
+            $this->error(__("To withdraw cash at the current level, you need to complete %s orders",[$max_order]));
+        }
+
         $data=[];
         $data['order_sn']=\app\common\model\Order::getOrderSn("W");
         $data['amount']=$price;
@@ -49,7 +65,7 @@ class OrderWithdraw extends Api
         $data['create_time']=time();
         $result=Db::name("m_order_withdraw")->insertGetId($data);
         if($result){
-            \app\common\model\User::money(- $price, $this->auth->id, "提现");
+            \app\common\model\User::money(- $price, $this->auth->id, "提现",2);
             $this->success(__("Withdrawal successful"),$data);
         }else{
             $this->error(__("Withdrawal failed, please try again"));

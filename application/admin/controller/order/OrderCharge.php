@@ -74,7 +74,7 @@ class OrderCharge extends Backend
             }
             $result = $row->allowField(true)->save($params);
             if($result && $params['status']==1){
-                \app\common\model\User::money($row->amount, $row->user_id, $row->order_sn);  
+                \app\common\model\User::money($row->amount, $row->user_id, $row->order_sn, 1);  
             }
             Db::commit();
         } catch (ValidateException|PDOException|Exception $e) {
