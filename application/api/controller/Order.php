@@ -93,8 +93,7 @@ class Order extends Api
         $data['mark_no']=$mark_no; 
         $data['create_time']=time();
         $result=Db::name("m_order")->insertGetId($data);
-        if($result){  
-            Db::name("user")->where("id",$this->auth->id)->update(['deal_count'=>$new_sort_id]); 
+        if($result){
             $this->success(__("Order successful"),$data);
         }else{
             $this->error(__("Order failed"));
@@ -209,6 +208,7 @@ class Order extends Api
                 $mc->payCommission($this->auth->id,$commission,"佣金");
                 \app\common\model\User::autolevel($this->auth->id);
         }  
+        Db::name("user")->where("id",$this->auth->id)->setInc('deal_count'); 
         $this->success(__("Finish"));
     } 
 

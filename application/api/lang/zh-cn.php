@@ -4,6 +4,7 @@ return [
     'Guest' => '游客',
     'Finish' => '完成',
     'Already withdrawn' => '已經提現過',
+    'The balance is less than %s, and the transaction cannot continue.' => '餘額小於%s，交易無法繼續。',
     'There is a withdrawal order waiting for review' => '已有提現訂單等待審核',
     'To withdraw cash at the current level, you need to complete %s orders' => '當前等級提現需完成%s筆訂單',
     'Secondary password error'                            => '二級密碼錯誤',
