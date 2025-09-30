@@ -40,7 +40,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'money', title: __('Money'), sortable: true, operate: false},
                         {field: 'frozen_amount', title: __('冻结金额'), operate: false},
                         {field: 'level', title: __('Level'), operate: false},
-                        {field: 'score', title: __('Score'), operate: false},
+                        // {field: 'score', title: __('Score'), operate: false},
                         // {field: 'successions', title: __('Successions'), visible: false, operate: 'BETWEEN', sortable: true},
                         // {field: 'maxsuccessions', title: __('Maxsuccessions'), visible: false, operate: 'BETWEEN', sortable: true},
                         {field: 'logintime', title: __('Logintime'), operate: false, formatter: Table.api.formatter.datetime, addclass: 'datetimerange', sortable: true},

@@ -63,7 +63,7 @@ class Bankinfo extends Api
             $result=Db::name("m_bankinfo")->where("id",$info['id'])->update($data);
         }
             
-        $this->success("success",$info);
+        $this->success(__("Saved successfully"),$info);
     } 
  
     /**
