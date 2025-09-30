@@ -530,16 +530,18 @@ class User extends Api
      * 获取金额日志
      *
      * @ApiMethod (GET) 
+     * @ApiParams (name="type", type="string", description="1充值 2提现") 
      * @ApiParams (name="page", type="string", description="页码") 
      * @ApiParams (name="per_page", type="string", description="查询数量")  
      *   
      */
     public function getMoneyLogList()
     {
+        $type = $this->request->get("type",1);        
         $page = $this->request->get("page",1);        
         $per_page = $this->request->get("per_page",20);
 
-        $list=Db::name("user_money_log")->where("user_id",$this->auth->id)->order("createtime desc")->paginate($per_page);
+        $list=Db::name("user_money_log")->where("user_id",$this->auth->id)->where("type",$type)->order("createtime desc")->paginate($per_page);
         $this->success("success",$list);
     } 
 }
