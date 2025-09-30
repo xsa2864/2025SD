@@ -203,7 +203,8 @@ class User extends Backend
         $result = false;
         Db::startTrans();
         try {
-            $result = \app\common\model\User::money($params['money'], $row->id, "管理员：".$this->auth->id);  
+            $type = $params['money']>0?1:2;
+            $result = \app\common\model\User::money($params['money'], $row->id, "管理员：".$this->auth->id, $type);
             Db::commit();
         } catch (ValidateException|PDOException|Exception $e) {
             Db::rollback();
