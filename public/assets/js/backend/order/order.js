@@ -31,7 +31,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'order_sn', title: __('Order_sn'), operate: 'LIKE'},
                         {field: 'user_id', title: __('User_id'), visible: false},
                         {field: 'user.username', title: __('User.username'), operate: 'LIKE'},
-                        // {field: 'user.mobile', title: __('User.mobile'), operate: 'LIKE'},
+                        {field: 'user.mobile', title: __('User.mobile'), operate: 'LIKE'},
                         {field: 'sort_id', title: __('Sort_id'), operate:false},
                         {field: 'product_id', title: __('Product_id'), operate:false},
                         {field: 'number', title: __('Number'), operate:false},
